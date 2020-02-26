@@ -1640,10 +1640,7 @@ public class RangeBar extends View {
 
             // If both target zones overlap, determine the most nearest one.
             if (mLeftThumb.isInTargetZone(x, y) && mRightThumb.isInTargetZone(x, y)) {
-                float distanceToLeft = Math.abs(x - mLeftThumb.getX());
-                float distanceToRight = Math.abs(mRightThumb.getX() - x);
-
-                if (distanceToLeft < distanceToRight) {
+                if (getLeftThumbXDistance(x) < getRightThumbXDistance(x)) {
                     pressPin(mLeftThumb);
                 } else {
                     pressPin(mRightThumb);

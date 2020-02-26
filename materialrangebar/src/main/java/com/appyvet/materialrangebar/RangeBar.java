@@ -1644,14 +1644,22 @@ public class RangeBar extends View {
     }
 
     /**
-     * Handles a {@link android.view.MotionEvent#ACTION_DOWN} event.
+     * Handles a {@link MotionEvent#ACTION_DOWN} event.
      *
      * @param x the x-coordinate of the down action
      * @param y the y-coordinate of the down action
      */
     private void onActionDown(float x, float y) {
         if (mIsRangeBar) {
-            if (!mRightThumb.isPressed() && mLeftThumb.isInTargetZone(x, y)) {
+
+            // If both target zones overlap, determine the most nearest one.
+            if (mLeftThumb.isInTargetZone(x, y) && mRightThumb.isInTargetZone(x, y)) {
+                if (getLeftThumbXDistance(x) < getRightThumbXDistance(x)) {
+                    pressPin(mLeftThumb);
+                } else {
+                    pressPin(mRightThumb);
+                }
+            } else if (!mRightThumb.isPressed() && mLeftThumb.isInTargetZone(x, y)) {
 
                 pressPin(mLeftThumb);
 
@@ -1659,15 +1667,7 @@ public class RangeBar extends View {
 
                 pressPin(mRightThumb);
             }
-        } else {
-            if (mRightThumb.isInTargetZone(x, y)) {
-                pressPin(mRightThumb);
-            }
         }
-        mDragging = true;
-
-        if (mListener != null)
-            mListener.onTouchStarted(this);
     }
 
     /**

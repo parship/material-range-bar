@@ -1653,7 +1653,15 @@ public class RangeBar extends View {
 
                 pressPin(mRightThumb);
             }
+        } else {
+            if (mRightThumb.isInTargetZone(x, y)) {
+                pressPin(mRightThumb);
+            }
         }
+        mDragging = true;
+
+        if (mListener != null)
+            mListener.onTouchStarted(this);
     }
 
     /**
